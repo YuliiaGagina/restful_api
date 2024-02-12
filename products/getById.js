@@ -1,6 +1,5 @@
-const { readJsonFile } = require("./utils");
+const { readJsonFile, filePath } = require("./utils");
 const path = require("path");
-const filePath = path.join(__dirname, "products.json");
 
 // Отримуємо один товар по його id
 async function getById(req, res) {

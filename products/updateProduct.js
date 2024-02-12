@@ -1,6 +1,5 @@
-const { readJsonFile, writeJsonFile } = require("./utils");
+const { readJsonFile, writeJsonFile, filePath } = require("./utils");
 const path = require("path");
-const filePath = path.join(__dirname, "products.json");
 
 // функція для оновлення продукту
 

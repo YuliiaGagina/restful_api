@@ -55,7 +55,7 @@ describe("GET /products/:id", () => {
 
 describe("POST /products", () => {
   it("should add a new product and return status code 200", async () => {
-    const newProduct = { name: "New Product", price: 10 };
+    const newProduct = { id: 2, name: "New Product" };
 
     const response = await supertest(app).post("/products").send(newProduct);
 

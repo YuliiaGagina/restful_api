@@ -1,7 +1,6 @@
-const { readJsonFile, writeJsonFile } = require("./utils");
+const { readJsonFile, writeJsonFile, filePath } = require("./utils");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
-const filePath = path.join(__dirname, "products.json");
 
 // Функція для додавання нового продукту
 async function addProduct(req, res) {

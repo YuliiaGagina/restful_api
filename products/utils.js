@@ -4,6 +4,8 @@ const path = require("path");
 // Так як функції зчитування файлу за запису його ми викопистовуємо постійно,
 //     я вивела ії в окремий файл для зручного використання,
 
+const filePath = path.join(__dirname, "products.json");
+
 async function readJsonFile(filePath) {
   try {
     const jsonData = await fs.readFile(filePath, "utf8");
@@ -26,4 +28,5 @@ async function writeJsonFile(filePath, data) {
 module.exports = {
   readJsonFile,
   writeJsonFile,
+  filePath,
 };

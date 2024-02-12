@@ -1,8 +1,6 @@
 const fs = require("fs/promises");
 const path = require("path");
-const { readJsonFile } = require("./utils");
-
-const filePath = path.join(__dirname, "products.json");
+const { readJsonFile, filePath } = require("./utils");
 
 // функція для отримання усіх товарів
 
