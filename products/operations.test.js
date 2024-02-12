@@ -1,11 +1,10 @@
 const supertest = require("supertest");
 const app = require("../app");
-const { readJsonFile } = require("./utils");
-
 jest.mock("./utils", () => ({
   readJsonFile: jest.fn(() =>
     Promise.resolve([{ id: "1", name: "Product 1" }])
   ),
+  writeJsonFile: jest.fn(() => Promise.resolve()),
 }));
 
 describe("GET /products", () => {
@@ -20,7 +19,7 @@ describe("GET /products", () => {
   it("should return status code 500 and an error message if reading JSON file fails", async () => {
     jest
       .spyOn(require("./utils"), "readJsonFile")
-      .mockRejectedValue(new Error("Failed to read file"));
+      .mockRejectedValueOnce(new Error("Failed to read file"));
     const response = await supertest(app).get("/products");
     expect(response.status).toBe(500);
     expect(response.text).toBe("Внутрішня помилка");
@@ -37,7 +36,7 @@ describe("GET /products/:id", () => {
   });
 
   it("should return status code 404 if product with the given id is not found", async () => {
-    jest.spyOn(require("./utils"), "readJsonFile").mockResolvedValue([]);
+    jest.spyOn(require("./utils"), "readJsonFile").mockResolvedValueOnce([]);
     const response = await supertest(app).get("/products/2");
     expect(response.status).toBe(404);
     expect(response.text).toBe("Продукт не знайдено");
@@ -46,7 +45,7 @@ describe("GET /products/:id", () => {
   it("should return status code 500 and an error message if reading JSON file fails", async () => {
     jest
       .spyOn(require("./utils"), "readJsonFile")
-      .mockRejectedValue(new Error("Failed to read file"));
+      .mockRejectedValueOnce(new Error("Failed to read file2"));
     const response = await supertest(app).get("/products/1");
     expect(response.status).toBe(500);
     expect(response.text).toBe("Внутрішня помилка");
@@ -55,7 +54,7 @@ describe("GET /products/:id", () => {
 
 describe("POST /products", () => {
   it("should add a new product and return status code 200", async () => {
-    const newProduct = { id: 2, name: "New Product" };
+    const newProduct = { name: "New Product", price: 10 };
 
     const response = await supertest(app).post("/products").send(newProduct);
 
@@ -68,7 +67,7 @@ describe("POST /products", () => {
 
     jest
       .spyOn(require("./utils"), "readJsonFile")
-      .mockRejectedValue(new Error());
+      .mockRejectedValueOnce(new Error("Reading error"));
 
     const response = await supertest(app).post("/products").send(newProduct);
 
